@@ -8,7 +8,6 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/ext_power.h>
-#include <dt-bindings/zmk/rgb.h>
 
 // Helper for UNICODE keymaps
 #include "zmk-helpers/helper.h"
@@ -26,15 +25,6 @@
 
 // Unicode characters
 ZMK_UNICODE_SINGLE(dbl_quot, N0, N0, N2, N2)
-
-
-&led_strip {
-  // chain-length = <0>;
-  chain-length = <27>;
-  // 21 backlight + 6 glowlight
-};
-
-
 
 &lt {
     quick_tap_ms = <120>;
@@ -137,44 +127,5 @@ ZMK_UNICODE_SINGLE(dbl_quot, N0, N0, N2, N2)
                                                                 &none       &none           &none        &none        &none        &none
             >;
         };
-    };
-};
-
-
-&pinctrl {
-    pwm_default: pwm_default {
-        group1 {
-            psels = <NRF_PSEL(PWM_OUT0, 0, 8)>; // Replace with your actual LED pin
-            nordic,invert;
-        };
-    };
-
-    pwm_sleep: pwm_sleep {
-        group1 {
-            psels = <NRF_PSEL(PWM_OUT0, 0, 8)>; // Same pin as in default
-            low-power-enable;
-        };
-    };
-};
-
-&pwm0 {
-    status = "okay";
-    pinctrl-0 = <&pwm_default>;
-    pinctrl-1 = <&pwm_sleep>;
-    pinctrl-names = "default", "sleep";
-};
-
-/ {
-    pwmleds {
-        compatible = "pwm-leds";
-        
-        pwm_backlight: pwm_backlight {
-            pwms = <&pwm0 0 PWM_MSEC(20) PWM_POLARITY_NORMAL>;
-            label = "Backlight";
-        };
-    };
-
-    aliases {
-        backlight = &pwm_backlight;
     };
 };
